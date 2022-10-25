@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background management home page</title>
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/ztree/css/ztree-bootstrap.css"/>
+    <link rel="stylesheet" href="static/layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="static/ztree/css/ztree-bootstrap.css"/>
+    <link href="static/css/style.css" rel="stylesheet">
+    <link href="static/css/animate.css" rel="stylesheet">
+</head>
+<body>
+<div id="wrapper">
+	<!--Navigation starts-->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                        <!--<div style="border-radius: 23px;width: 50px;height: 50px;background-color: aliceblue; display: flex;margin-bottom: 10px;">
+                            <img alt="image" style="width: 50px; height: 50px;" class="rounded-circle" th:src="${session.userInfo.photo}" />
+                        </div>-->
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="/profile">
+                            <th:block th:if="${session.type == '01'}">
+                                <span class="block m-t-xs font-bold">[(${session.userInfo.username})]</span>
+                            </th:block>
+                            <th:block th:if="${session.type == '02'}">
+                                <span class="block m-t-xs font-bold">[(${session.userInfo.phone})]</span>
+                            </th:block>
+                            <th:block th:if="${session.type == '03'}">
+                                <span class="block m-t-xs font-bold">[(${session.userInfo.phone})]</span>
+                            </th:block>
+                            <span style="margin-top: 10px;" class="text-muted text-xs block">
+                                <th:block th:if="${session.type == '01'}">
+                                administrator
+                                </th:block>
+                                <th:block th:if="${session.type == '02'}">
+                                user
+                                </th:block>
+                            <b class="caret"></b></span>
+                        </a>
+                    </div>
+                    <div class="logo-element">
+                        MTY
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+	<!--Navigation starts-->
+
+    <div id="page-wrapper" class="gray-bg">
+		<!-- right head-->
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a href="/front/"> back to home</a>
+                    </li>
+                    <li>
+                        <a href="/logout"> <i class="fa fa-sign-out"></i> Log out</a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+		<!-- right head-->
+
+        <!--tab start-->
+        <div class="row content-tabs">
+            <button class="roll-nav roll-left tabLeft">
+                <i class="fa fa-backward"></i>
+            </button>
+            <nav class="page-tabs menuTabs">
+                <div class="page-tabs-content">
+                    <a href="javascript:void(0);" class="active menuTab" data-id="/workdest">workbench</a>
+                </div>
+            </nav>
+            <button class="roll-nav roll-right tabRight">
+                <i class="fa fa-forward"></i>
+            </button>
+            <div class="btn-group roll-nav roll-right">
+                <button class="dropdown J_tabClose" data-toggle="dropdown">
+                    Tab operations<span class="caret"></span>
+                </button>
+                <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                    <li><a class="tabCloseCurrent" href="javascript:void();">close current</a></li>
+                    <li><a class="tabCloseOther" href="javascript:void();">close other</a></li>
+                    <li><a class="tabCloseAll" href="javascript:void();">close all</a></li>
+                </ul>
+            </div>
+            <a href="#" class="roll-nav roll-right tabReload"><i class="fa fa-refresh"></i> refresh</a>
+        </div>
+        <!--tab end-->
+
+        <!--content area-->
+        <div class="wrapper wrapper-content animated fadeInRight" id="content">
+            <iframe class="Liyao_iframe" name="iframe0" width="100%" height="100%"
+                    data-id="/workdest"
+                    src="/workdest" frameborder="0" seamless
+                    onload="this.height=this.contentWindow.document.documentElement.scrollHeight"></iframe>
+        </div>
+		<!--content area-->
+
+		<!--bottom-->
+       <!-- <div class="footer">
+            <div>
+                <strong>Copyright</strong> MTY
+            </div>
+        </div>-->
+		<!--bottom-->
+    </div>
+</div>
+<!-- Mainly scripts -->
+<script src="static/js/jquery.min.js"></script>
+<script src="static/ztree/js/jquery.ztree.core.js"></script>
+<script src="static/ztree/js/jquery.ztree.excheck.js"></script>
+<script src="static/ztree/js/jquery.ztree.exedit.js"></script>
+<script src="static/layer/layer.js"></script>
+<script src="static/js/popper.min.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+<script src="static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="static/js/inspinia.js"></script>
+<script src="static/js/plugins/pace/pace.min.js"></script>
+<script src="static/layui/layui.all.js" charset="utf-8"></script>
+<script>
+    var guanliyuan =
+        [
+            {
+                "id":2,
+                "permissionId":"2",
+                "name":"User Management",
+                "description":"User Management",
+                "url":"/user/user",
+                "perms":null,
+                "parentId":0,
+                "type":null,
+                "orderNum":2,
+                "icon":"fa fa-user-circle-o",
+                "status":null,
+                "createTime":null,
+                "updateTime":null
+            },
+            {
+                "id":2,
+                "permissionId":"2",
+                "name":"Classification management",
+                "description":"Classification management",
+                "url":"/category/category",
+                "perms":null,
+                "parentId":0,
+                "type":null,
+                "orderNum":2,
+                "icon":"fa fa-map-signs",
+                "status":null,
+                "createTime":null,
+                "updateTime":null
+            },
+            {
+                "id":2,
+                "permissionId":"2",
+                "name":"goods management",
+                "description":"goods management",
+                "url":"/goods/goods",
+                "perms":null,
+                "parentId":0,
+                "type":null,
+                "orderNum":2,
+                "icon":"fa fa-paper-plane",
+                "status":null,
+                "createTime":null,
+                "updateTime":null
+            },
+            {
+                "id":22,
+                "permissionId":"3",
+                "name":"order management",
+                "description":"order management",
+                "url":"/orders/orders",
+                "perms":null,
+                "parentId":0,
+                "type":null,
+                "orderNum":3,
+                "icon":"fa fa-credit-card-alt",
+                "status":null,
+                "createTime":null,
+                "updateTime":null,
+            },
+            {
+                "id":22,
+                "permissionId":"3",
+                "name":"order details",
+                "description":"order details",
+                "url":"/orderItem/orderItem",
+                "perms":null,
+                "parentId":0,
+                "type":null,
+                "orderNum":3,
+                "icon":"fa fa-sliders",
+                "status":null,
+                "createTime":null,
+                "updateTime":null,
+            },
+            {
+                "id":22,
+                "permissionId":"3",
+                "name":"Admin management",
+                "description":"Admin management",
+                "url":"/admin/admin",
+                "perms":null,
+                "parentId":0,
+                "type":null,
+                "orderNum":3,
+                "icon":"fa fa-user-circle",
+                "status":null,
+                "createTime":null,
+                "updateTime":null,
+            }
+        ];
+
+    var users =
+        [
+            {
+                "id":22,
+                "permissionId":"3",
+                "name":"order management",
+                "description":"order management",
+                "url":"/orders/orders",
+                "perms":null,
+                "parentId":0,
+                "type":null,
+                "orderNum":3,
+                "icon":"fa fa-credit-card-alt",
+                "status":null,
+                "createTime":null,
+                "updateTime":null,
+            },
+            {
+                "id":22,
+                "permissionId":"3",
+                "name":"cart",
+                "description":"cart",
+                "url":"/cart/cart",
+                "perms":null,
+                "parentId":0,
+                "type":null,
+                "orderNum":3,
+                "icon":"fa fa-comment-o",
+                "status":null,
+                "createTime":null,
+                "updateTime":null,
+            }
+        ];
+    var array = [];
+    var type= '[[${session.type}]]';
+    if(type=="01"){
+        array = guanliyuan;
+    }else if(type=="02"){
+        array = users;
+    }
+</script>
+<script src="static/js/core/liyaoCore.js"></script>
+</body>
+</html>

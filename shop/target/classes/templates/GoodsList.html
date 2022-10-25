@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <base th:href="${#request.getContextPath()}+'/'">
+    <link rel="stylesheet" href="static/layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="static/dropzone/dropzone.css" />
+    <link rel="stylesheet" href="static/dropzone/min/basic.min.css" />
+    <script src="static/dropzone/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="static/wangEditor/wangEditor.min.css">
+    <script type="text/javascript" src="static/wangEditor/wangEditor.min.js"></script>
+</head>
+<style>
+    .searchdiv{
+        background: #fff;
+        border-radius: 6px;margin-top: 10px;
+        box-shadow: 1px 1px 3px rgba(0,0,0,.2);
+        padding: 10px;
+    }
+    .layui-layer-shade{
+        background-color:unset !important;
+    }
+    .selectUp .layui-form-select dl{
+        top: auto;
+        bottom: 36px;
+    }
+</style>
+
+<body style="background-color: #f3f3f4;">
+    <div class="searchdiv">
+        <form class="layui-form" id="searhFrom">
+            <div class="layui-row layui-form-item">
+                <div class="layui-col-xs3">
+                    <label class="layui-form-label">name: </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-col-xs3">
+                    <label class="layui-form-label">category: </label>
+                    <div class="layui-input-block">
+                        <select name="cid" class="form-control">
+                            <option value=""></option>
+                            <option th:each="obj:${categories}" th:value="${obj.id}" th:text="${obj.name}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-col-xs3" style="padding-left:20px; ">
+                    <button type="button" class="layui-btn" id="btn_query">query</button>
+                </div>
+                </div>
+        </form>
+    </div>
+
+    <div class="searchdiv">
+        <button class="layui-btn layui-btn-normal" id="addInfo">add</button>
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+    </div>
+
+
+    <div id="addModel" style="display: none">
+        <form class="layui-form" id="addform" style="padding: 15px 30px 15px 0px;" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">good image:</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="image" id="image" >
+                    <div id="dropz" class="dropzone"></div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">name: </label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" lay-verify="required" placeholder="Please enter information"  class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">category:</label>
+                <div class="layui-input-block selectUp">
+                    <select name="cid" class="form-control" lay-verify="required">
+                        <option th:each="obj:${categories}" th:value="${obj.id}" th:text="${obj.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">price:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="money" lay-verify="money" placeholder="Please enter information"  class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">good description:</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="content" id="content1" class="form-control"  placeholder="">
+                    <div id="editor" style="width: 650px;"></div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" lay-submit="" lay-filter="addSubmit">submit</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div id="editModel" style="display: none">
+        <form class="layui-form" id="editform" style="padding: 15px 30px 15px 0px;" action="">
+
+            <input type="hidden" name="id" id="id">
+            <div class="layui-form-item">
+                <label class="layui-form-label">good image:</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="image" id="image2" >
+                    <div id="dropz" class="dropzone"></div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">name:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" lay-verify="required" class="layui-input" id="name" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">category:</label>
+                <div class="layui-input-block selectUp">
+                    <select name="cid" id="cid" class="form-control" lay-verify="required">
+                        <option th:each="obj:${categories}" th:value="${obj.id}" th:text="${obj.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">price:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="money" lay-verify="money" class="layui-input" id="money" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">good description:</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="content" id="content2" class="form-control"  placeholder="edit">
+                    <div id="editor2" style="width: 650px;"></div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="editSubmit">submit</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+<script type="text/html" id="barDemo">
+<a class="layui-btn layui-btn-xs" lay-event="edit">edit</a>
+<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">delete</a>
+</script>
+
+<script src="static/layui/layui.all.js" charset="utf-8"></script>
+<script>
+
+    !function(){
+        var table = layui.table;
+        var $ = layui.jquery,layer = layui.layer;
+        var form = layui.form;
+
+        form.verify({
+            money: function(val, item) {
+                if(!/^\d+(\.\d{0,2})?$/.test(val)){
+                    return 'Please enter the correct amount format'
+                }
+            }
+        });
+
+        Dropzone.options.dropz = {
+            url: "/file/avatar",
+            method: "post",
+            autoQueue: true,
+            maxFiles:1,
+            dictMaxFilesExceeded: "You can only upload up to 1 file!",
+            maxFilesize: 20, //MB
+            dictDefaultMessage: 'Drag the file here or click to upload', // Set the default prompt statement
+            paramName: "dropFile",// The name of the parameter passed to the background
+            init: function () {
+                this.on("success", function (file, data) {
+                    $("#image").val(data.fileName);
+                    $("#image2").val(data.fileName);
+                    // Upload successfully triggered event
+                });
+            }
+        };
+
+
+        // wangEditor
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+        // Configure server-side address
+        editor.customConfig.uploadImgServer = '/file/ContentUpload';
+        // Limit image size to 3M, default to 5MB
+        editor.customConfig.uploadImgMaxSize = 10 * 1024 * 1024;
+        // Limit uploads of up to 20 images at a time
+        editor.customConfig.uploadImgMaxLength = 20;
+        // customize fileName
+        editor.customConfig.uploadFileName = 'dropFile';
+        editor.create();
+        editor.customConfig.uploadImgHooks = {
+            before: function (xhr, editor, files) {
+            }
+        };
+
+        var V = window.wangEditor;
+        var editor2 = new V('#editor2');
+        // Configure server-side address
+        editor2.customConfig.uploadImgServer = '/file/ContentUpload';
+        // Limit image size to 3M, default to 5MB
+        editor2.customConfig.uploadImgMaxSize = 10 * 1024 * 1024;
+        // Limit uploads of up to 20 images at a time
+        editor2.customConfig.uploadImgMaxLength = 20;
+        // customize fileName
+        editor2.customConfig.uploadFileName = 'dropFile';
+        editor2.create();
+        editor2.customConfig.uploadImgHooks = {
+            before: function (xhr, editor2, files) {
+            }
+        };
+
+
+        //1st sample
+        var tableIns = table.render({
+            elem: '#test'
+            ,height: 500
+            ,where: {}
+            ,url: '/goods/list' //data
+            ,page: true
+            ,cols: [
+                [
+                    {field: 'image', title: 'good image', fixed: 'center',
+                        templet:function (d) { return '<div><img style="width: 30px;" src='+d.image+'></div>' }
+                    },
+                    {field: 'name', title: 'name', fixed: 'center'},
+                    {field: 'cname', title: 'category', fixed: 'center'},
+                    {field: 'money', title: 'price', fixed: 'center'},
+                    {field: 'content', title: 'good description', fixed: 'center'},
+                    {field: 'createTime', title: 'time', fixed: 'center'},
+                    {fixed: 'right', title:'operation', width:230, toolbar: '#barDemo'}
+                ]
+            ]
+        });
+
+        /**
+         * query
+         * **/
+        $("#btn_query").click(function(){
+            tableIns.reload({
+                where:{
+                      image:$("input[name=image]").val(),
+                      sid:$("select[name=sid]").val(),
+                      name:$("input[name=name]").val(),
+                      cid:$("select[name=cid]").val(),
+                      money:$("input[name=money]").val(),
+                      content:$("input[name=content]").val(),
+                      status:$("input[name=status]").val(),
+                      uid:$("input[name=uid]").val(),
+                },page: {
+                    curr: 1
+                }
+            })
+        });
+
+        /**
+         * monitor list
+         *
+         * **/
+        var editwindow ;
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                top.layer.confirm('really delete the line?', function(index){
+                    $.ajax({
+                        url:"/goods/del",
+                        type:"post",
+                        data:{id:data.id},
+                        success:function(data){
+                            if(data.ret){
+                                obj.del();
+                                parent.layer.close(index);
+                                parent.layer.msg("delete successful! ")
+                            }
+                        }
+                    })
+
+                });
+            }else if(obj.event === 'shenhe'){
+
+            }else if(obj.event === 'edit'){
+
+                $.ajax({
+                    url: '/goods/edit?id='+data.id,
+                    type: "get",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    success:function(res){
+                        editwindow = layer.open({
+                            type:1,
+                            area: ['800px', '550px'],
+                            content:$("#editModel"),
+                            success: function() { }
+                        });
+                        document.getElementById("id").value = res.id;
+                        document.getElementById("image").value = res.image;
+                        document.getElementById("name").value = res.name;
+                        document.getElementById("cid").value = res.cid;
+                        document.getElementById("money").value = res.money;
+                        document.getElementById("content2").value = res.content;
+                        editor2.txt.html('<p>' + res.content + '</p>');
+                        layui.form.on('submit(editSubmit)', function(data){
+                            var contentHtml = editor2.txt.html();
+                            $("#content2").val(contentHtml);
+                            $.ajax({
+                                url:"/goods/edit",
+                                type:"post",
+                                dataType:"json",
+                                data: $("#editform").serialize(),
+                                success:function(data){
+                                    parent.layer.msg(data.msg);
+                                    if(data.ret){
+                                        layer.close(editwindow);
+                                        tableIns.reload({
+                                            where: {}
+                                            ,page: {
+                                                curr: 1
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        });
+                    },
+                    error:function(){
+                        layer.msg('Get fail',{icon:0,time:3000});
+                    }
+                });
+
+            }
+        });
+
+
+        /**
+        *  add
+        * */
+        var addModel;
+        $("#addInfo").click(function(){
+            addModel = layer.open({
+                type: 1,
+                area: ['800px', '550px'],
+                content: $('#addModel'),
+                success:function(){
+                    layui.form.render();
+                }
+            });
+        });
+
+        /**
+         *  monitor
+         */
+        layui.form.on('submit(addSubmit)', function(data){
+            var addHtml = editor.txt.html();
+            $("#content1").val(addHtml);
+            $.ajax({
+                url:"/goods/add",
+                type:"post",
+                dataType:"json",
+                data: $("#addform").serialize(),
+                success:function (data) {
+                    if(data.ret){
+                        parent.layer.msg("add successful! ");
+                        layer.close(addModel);
+                        tableIns.reload({
+                            where: {}
+                            ,page: {
+                                curr: 1
+                            }
+                        });
+                    }else{
+                        parent.layer.msg(data.msg)
+                    }
+                    window.location.href='/goods/goods';
+                },error:function(data){
+                    parent.layer.msg("ERROR");
+                }
+            });
+            return false;
+        });
+
+    }();
+</script>
+</body>
+
+</html>

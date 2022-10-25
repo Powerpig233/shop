@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <base th:href="${#request.getContextPath()}+'/'">
+    <link rel="stylesheet" href="static/layui/css/layui.css"  media="all">
+</head>
+<style>
+    .searchdiv{
+        background: #fff;
+        border-radius: 6px;margin-top: 10px;
+        box-shadow: 1px 1px 3px rgba(0,0,0,.2);
+        padding: 10px;
+    }
+    .layui-layer-shade{
+        background-color:unset !important;
+    }
+</style>
+
+<body style="background-color: #f3f3f4;">
+    <div class="searchdiv">
+        <form class="layui-form" id="searhFrom">
+            <div class="layui-row layui-form-item">
+
+                <div class="layui-col-xs3">
+                    <label class="layui-form-label">order number：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="no" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-col-xs3" style="padding-left:20px; ">
+                    <button type="button" class="layui-btn" id="btn_query">query</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="searchdiv">
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+    </div>
+
+
+<script type="text/html" id="barDemo">
+<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">delete</a>
+<!--<th:block th:if="${session.type=='02'}">
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="shenhe">发货</a>
+</th:block>-->
+</script>
+
+<script src="static/layui/layui.all.js" charset="utf-8"></script>
+<script>
+
+    !function(){
+        var table = layui.table;
+        var $ = layui.jquery,layer = layui.layer;
+        var form = layui.form;
+
+
+        //1st sample
+        var tableIns = table.render({
+            elem: '#test'
+            ,height: 500
+            ,where: {}
+            ,url: '/orders/list' //data
+            ,page: true
+            ,cols: [
+                [
+                    {field: 'no', title: 'order number', fixed: 'center'},
+                    {field: 'num', title: 'quantity', fixed: 'center'},
+                    {field: 'total', title: 'total price', fixed: 'center'},
+                    {field: 'uname', title: 'user', fixed: 'center'},
+                    {field: 'status', title: 'status', fixed: 'center',
+                        templet:function (d) {
+                            if(d.status=='01'){
+                                return "<button type='button' class='layui-btn layui-btn-sm layui-btn-normal'>Ordered</button>"
+                            }else if(d.status=='02'){
+                                return "<button type='button' class='layui-btn layui-btn-sm layui-btn-warm'>Cancelled</button>"
+                            }
+                        }
+                    },
+                    {field: 'createTime', title: 'time', fixed: 'center'},
+                    {fixed: 'right', title:'operation', width:230, toolbar: '#barDemo'}
+                ]
+            ]
+        });
+
+        /**
+         * query
+         * **/
+        $("#btn_query").click(function(){
+            tableIns.reload({
+                where:{
+                      no:$("input[name=no]").val(),
+                      num:$("input[name=num]").val(),
+                      total:$("input[name=total]").val(),
+                      uid:$("input[name=uid]").val(),
+                      remark:$("input[name=remark]").val(),
+                      status:$("input[name=status]").val(),
+                },page: {
+                    curr: 1
+                }
+            })
+        });
+
+        /**
+         * monitor
+         *
+         * **/
+        var editwindow ;
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                top.layer.confirm('really delete the line?', function(index){
+                    $.ajax({
+                        url:"/orders/del",
+                        type:"post",
+                        data:{id:data.id},
+                        success:function(data){
+                            if(data.ret){
+                                obj.del();
+                                parent.layer.close(index);
+                                parent.layer.msg("delete successful! ")
+                            }
+                        }
+                    })
+
+                });
+            }else if(obj.event === 'shenhe'){
+                top.layer.confirm('Are you sure it's shipped?', function(index){
+                    $.ajax({
+                        url:"/orders/updateStatus",
+                        type:"post",
+                        data:{id:data.id,status:'02'},
+                        success:function(data){
+                            if(data.ret){
+                                parent.layer.close(index);
+                                parent.layer.msg("Shipped successfully! ");
+                                tableIns.reload({
+                                    where: {}
+                                    ,page: {
+                                        curr: 1
+                                    }
+                                });
+                            }
+                        }
+                    })
+                });
+            } else if(obj.event === 'edit'){
+
+                $.ajax({
+                    url: '/orders/edit?id='+data.id,
+                    type: "get",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    success:function(res){
+                        editwindow = layer.open({
+                            type:1,
+                            area: ['500px', '450px'],
+                            content:$("#editModel"),
+                            success: function() { }
+                        });
+                        document.getElementById("id").value = res.id;
+                        document.getElementById("no").value = res.no;
+                        document.getElementById("num").value = res.num;
+                        document.getElementById("total").value = res.total;
+                        document.getElementById("uid").value = res.uid;
+                        document.getElementById("remark").value = res.remark;
+                        document.getElementById("status").value = res.status;
+                        layui.form.on('submit(editSubmit)', function(data){
+                            $.ajax({
+                                url:"/orders/edit",
+                                type:"post",
+                                dataType:"json",
+                                data: $("#editform").serialize(),
+                                success:function(data){
+                                    parent.layer.msg(data.msg);
+                                    if(data.ret){
+                                        layer.close(editwindow);
+                                        tableIns.reload({
+                                            where: {}
+                                            ,page: {
+                                                curr: 1
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        });
+                    },
+                    error:function(){
+                        layer.msg('Get fail',{icon:0,time:3000});
+                    }
+                });
+
+            }
+        });
+
+
+        /**
+        *  add
+        * */
+        var addModel;
+        $("#addInfo").click(function(){
+            addModel = layer.open({
+                type: 1,
+                area: ['500px', '550px'],
+                content: $('#addModel'),
+                success:function(){
+                    layui.form.render();
+                }
+            });
+        });
+
+        /**
+         *  monitor add
+         */
+        layui.form.on('submit(addSubmit)', function(data){
+            $.ajax({
+                url:"/orders/add",
+                type:"post",
+                dataType:"json",
+                data: $("#addform").serialize(),
+                success:function (data) {
+                    if(data.ret){
+                        parent.layer.msg("add successful! ");
+                        layer.close(addModel);
+                        tableIns.reload({
+                            where: {}
+                            ,page: {
+                                curr: 1
+                            }
+                        });
+                    }else{
+                        parent.layer.msg(data.msg)
+                    }
+                    window.location.href='/orders/orders';
+                },error:function(data){
+                    parent.layer.msg("ERROR");
+                }
+            })
+            return false;
+        });
+
+    }();
+</script>
+</body>
+
+</html>

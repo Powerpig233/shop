@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <base th:href="${#request.getContextPath()}+'/'">
+    <link rel="stylesheet" href="static/layui/css/layui.css"  media="all">
+</head>
+<style>
+    .searchdiv{
+        background: #fff;
+        border-radius: 6px;margin-top: 10px;
+        box-shadow: 1px 1px 3px rgba(0,0,0,.2);
+        padding: 10px;
+    }
+    .layui-layer-shade{
+        background-color:unset !important;
+    }
+</style>
+
+<body style="background-color: #f3f3f4;">
+    <div class="searchdiv">
+        <form class="layui-form" id="searhFrom">
+            <div class="layui-row layui-form-item">
+
+                <div class="layui-col-xs3">
+                    <label class="layui-form-label">goods: </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="gid" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-col-xs3">
+                    <label class="layui-form-label">user: </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="uid" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-col-xs3" style="padding-left:20px; ">
+                    <button type="button" class="layui-btn" id="btn_query">query</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="searchdiv">
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+    </div>
+
+
+<script type="text/html" id="barDemo">
+<a class="layui-btn layui-btn-xs" lay-event="edit">edit</a>
+<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">delete</a>
+</script>
+
+<script src="static/layui/layui.all.js" charset="utf-8"></script>
+<script>
+
+    !function(){
+        var table = layui.table;
+        var $ = layui.jquery,layer = layui.layer;
+        var form = layui.form;
+
+
+        //1st sample
+        var tableIns = table.render({
+            elem: '#test'
+            ,height: 500
+            ,where: {}
+            ,url: '/cart/list' //data
+            ,page: true
+            ,cols: [
+                [
+                    {field: 'gname', title: 'good', fixed: 'center'},
+                    {field: 'num', title: 'quantity', fixed: 'center'},
+                    {field: 'uname', title: 'user', fixed: 'center'},
+                    {field: 'createTime', title: 'time', fixed: 'center'},
+                    {fixed: 'right', title:'operation', width:230, toolbar: '#barDemo'}
+                ]
+            ]
+        });
+
+        /**
+         * query button event
+         * **/
+        $("#btn_query").click(function(){
+            tableIns.reload({
+                where:{
+                      gid:$("input[name=gid]").val(),
+                      num:$("input[name=num]").val(),
+                      uid:$("input[name=uid]").val(),
+                },page: {
+                    curr: 1
+                }
+            })
+        });
+
+        /**
+         * monitor
+         *
+         * **/
+        var editwindow ;
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                top.layer.confirm('真的删除行么', function(index){
+                    $.ajax({
+                        url:"/cart/del",
+                        type:"post",
+                        data:{id:data.id},
+                        success:function(data){
+                            if(data.ret){
+                                obj.del();
+                                parent.layer.close(index);
+                                parent.layer.msg("delete successful! ")
+                            }
+                        }
+                    })
+
+                });
+            } else if(obj.event === 'edit'){
+
+                $.ajax({
+                    url: '/cart/edit?id='+data.id,
+                    type: "get",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    success:function(res){
+                        editwindow = layer.open({
+                            type:1,
+                            area: ['500px', '450px'],
+                            content:$("#editModel"),
+                            success: function() { }
+                        });
+                        document.getElementById("id").value = res.id;
+                        document.getElementById("gid").value = res.gid;
+                        document.getElementById("num").value = res.num;
+                        document.getElementById("uid").value = res.uid;
+                        layui.form.on('submit(editSubmit)', function(data){
+                            $.ajax({
+                                url:"/cart/edit",
+                                type:"post",
+                                dataType:"json",
+                                data: $("#editform").serialize(),
+                                success:function(data){
+                                    parent.layer.msg(data.msg);
+                                    if(data.ret){
+                                        layer.close(editwindow);
+                                        tableIns.reload({
+                                            where: {}
+                                            ,page: {
+                                                curr: 1
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        });
+                    },
+                    error:function(){
+                        layer.msg('Get fail',{icon:0,time:3000});
+                    }
+                });
+
+            }
+        });
+
+
+        /**
+        *  add
+        * */
+        var addModel;
+        $("#addInfo").click(function(){
+            addModel = layer.open({
+                type: 1,
+                area: ['500px', '550px'],
+                content: $('#addModel'),
+                success:function(){
+                    layui.form.render();
+                }
+            });
+        });
+
+        /**
+         *  monitor
+         */
+        layui.form.on('submit(addSubmit)', function(data){
+            $.ajax({
+                url:"/cart/add",
+                type:"post",
+                dataType:"json",
+                data: $("#addform").serialize(),
+                success:function (data) {
+                    if(data.ret){
+                        parent.layer.msg("添加成功！");
+                        layer.close(addModel);
+                        tableIns.reload({
+                            where: {}
+                            ,page: {
+                                curr: 1
+                            }
+                        });
+                    }else{
+                        parent.layer.msg(data.msg)
+                    }
+                    window.location.href='/cart/cart';
+                },error:function(data){
+                    parent.layer.msg("ERROR");
+                }
+            })
+            return false;
+        });
+
+    }();
+</script>
+</body>
+
+</html>

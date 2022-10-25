@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mty.shop.mapper.GoodsMapper" >
+
+    <resultMap id="BaseResultMap" type="com.mty.shop.model.Goods">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="image" jdbcType="VARCHAR" property="image" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="cid" jdbcType="VARCHAR" property="cid" />
+        <result column="money" jdbcType="VARCHAR" property="money" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        image,
+        name,
+        cid,
+        money,
+        content,
+        create_time
+    </sql>
+
+    <!--条件查询-->
+    <select id="selectByCondition" resultType="com.mty.shop.model.Goods" parameterType="com.mty.shop.model.Goods">
+        SELECT
+        g.id,
+        g.image,
+        g.name,
+        g.cid,
+        g.money,
+        g.content,
+        g.create_time createTime,
+        c.name cname
+        FROM goods g left join category c on g.cid = c.id
+        WHERE 1=1
+        <if test="id != null and id != '' ">
+            and g.id = #{id}
+        </if>
+        <if test="image != null and image != '' ">
+            and g.image = #{image}
+        </if>
+        <if test="name != null and name != '' ">
+            and g.name like concat(concat('%',#{name}),'%')
+        </if>
+        <if test="cid != null and cid != '' ">
+            and g.cid = #{cid}
+        </if>
+        <if test="money != null and money != '' ">
+            and g.money = #{money}
+        </if>
+        <if test="content != null and content != '' ">
+            and g.content = #{content}
+        </if>
+        <if test="createTime != null and createTime != '' ">
+            and g.create_time = #{createTime}
+        </if>
+        order by g.create_time desc
+    </select>
+
+
+    <!--添加-->
+    <insert id="addByCondition" parameterType="com.mty.shop.model.Goods" keyProperty="id" useGeneratedKeys="true">
+    insert into goods (
+        image,
+        name,
+        cid,
+        money,
+        content,
+        create_time
+    )values(
+        #{image},
+        #{name},
+        #{cid},
+        #{money},
+        #{content},
+        #{createTime}
+    )
+    </insert>
+
+
+    <!--根据id删除-->
+    <delete id="deleteById" >
+    delete from goods where id=#{id}
+    </delete>
+
+
+    <!--根据ID查询-->
+    <select id="selectById" resultType="com.mty.shop.model.Goods" >
+    SELECT
+    g.id,
+    g.image,
+    g.name,
+    g.cid,
+    g.money,
+    g.content,
+    g.create_time createTime,
+    c.name cname
+    FROM goods g left join category c on g.cid = c.id
+    where g.id=#{id}
+    </select>
+
+
+    <!--修改-->
+    <update id="updateById" parameterType="com.mty.shop.model.Goods">
+    update goods
+    <set>
+        <if test="image != null and image != '' ">
+            image = #{image},
+        </if>
+        <if test="name != null and name != '' ">
+            name = #{name},
+        </if>
+        <if test="cid != null and cid != '' ">
+            cid = #{cid},
+        </if>
+        <if test="money != null and money != '' ">
+            money = #{money},
+        </if>
+        <if test="content != null and content != '' ">
+            content = #{content},
+        </if>
+        <if test="createTime != null and createTime != '' ">
+            create_time = #{createTime},
+        </if>
+    </set>
+    where id = #{id}
+    </update>
+
+
+    <!--查询全部-->
+    <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    order by create_time desc
+    </select>
+
+
+    <!--按照Map条件查询-->
+    <select id="queryFilter" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    g.id,
+    g.image,
+    g.name,
+    g.cid,
+    g.money,
+    g.content,
+    g.create_time createTime,
+    c.name cname
+    FROM goods g left join category c on g.cid = c.id
+    where 1=1
+    <if test="id != null and id != '' ">
+        and g.id = #{id}
+    </if>
+    <if test="image != null and image != '' ">
+        and g.image = #{image}
+    </if>
+    <if test="name != null and name != '' ">
+        and g.name like concat(concat('%',#{name}),'%')
+    </if>
+    <if test="cid != null and cid != '' ">
+        and g.cid = #{cid}
+    </if>
+    <if test="money != null and money != '' ">
+        and g.money = #{money}
+    </if>
+    <if test="content != null and content != '' ">
+        and g.content = #{content}
+    </if>
+    <if test="createTime != null and createTime != '' ">
+        and g.create_time = #{createTime}
+    </if>
+    order by g.create_time desc
+    <if test="limit != null and limit != '' ">
+        limit 0,5
+    </if>
+    </select>
+
+</mapper>
