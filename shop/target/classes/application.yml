@@ -13,7 +13,7 @@ spring:
         initialSize: 1
         minIdle: 3
         maxActive: 20
-        # Configure the time for getting a connection to wait for timeout
+        # Configure the time to wait for a timeout to get a connection
         maxWait: 60000
         filters: stat,wall,slf4j
     thymeleaf:
@@ -40,4 +40,4 @@ mapper:
     not-empty: false
     identity: MYSQL
 
-uploadDir: /Users/mwh/Desktop/seafood shop/seaFood-Shop/upload
+uploadDir: /Users/mwh/Desktop/seaFood-Shop/seaFood-Shop/upload

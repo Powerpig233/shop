@@ -50,11 +50,11 @@
                         <table class="table shoping-cart-table">
                             <tbody>
                             <tr class="danger">
-                                <td style="width: 18%;text-align: center;">order number</td>
-                                <td style="width: 10%;text-align: center;">quantity</td>
+                                <td style="width: 18%;text-align: center;">order No.</td>
+                                <td style="width: 10%;text-align: center;">quantitty</td>
                                 <td style="width: 10%;text-align: center;">total price</td>
                                 <td style="width: 18%;text-align: center;">status</td>
-                                <td style="width: 18%;text-align: center;">order time</td>
+                                <td style="width: 18%;text-align: center;">time</td>
                                 <td style="width: 18%;text-align: center;">operation</td>
                             </tr>
                             <tr class="danger"  th:each="order:${orders.list}">
@@ -64,8 +64,8 @@
                                 <td style="width: 18%;text-align: center;" th:text="${order.status=='01'?'Ordered':'Cancelled'}"></td>
                                 <td style="width: 18%;text-align: center;" th:text="${#dates.format(order.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td style="width: 18%;text-align: center;">
-                                    <button type="button" class="btn layui-btn-xs btn-success" th:onclick="'getDetail(\'' + ${order.id} + '\');'">order details</button>
-                                    <button type="button" class="btn layui-btn-xs btn-danger" th:onclick="'quxiao(\'' + ${order.id} + '\');'">cancel order</button>
+                                    <button type="button" class="btn layui-btn-xs btn-success" th:onclick="'getDetail(\'' + ${order.id} + '\');'">detail</button>
+                                    <button type="button" class="btn layui-btn-xs btn-danger" th:onclick="'quxiao(\'' + ${order.id} + '\');'">cancel</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -73,13 +73,13 @@
                     </div>
 
 
-                    <!--Show pagination information-->
+
                     <div class="row" style="margin-top: 50px;">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
                             <div class="modal-footer no-margin-top" style="justify-content: center;">
                                                 <span style="margin-bottom: 13px;font-size: 15px;margin-right: 15px;">
-                                                    current [[${orders.pageNum}]]page，all [[${orders.pages}]] page， [[${orders.total}]] record
+                                                    current[[${orders.pageNum}]]page,all[[${orders.pages}]]page[[${orders.total}]]record
                                                 </span>
                                 <ul class="pagination pull-right no-margin">
                                     <li th:if="${orders.hasPreviousPage}">
@@ -91,7 +91,7 @@
                                             <i class="ace-icon fa fa-angle-double-left"></i>
                                         </a>
                                     </li>
-                                    <!--traverse-->
+
                                     <li th:each="nav:${orders.navigatepageNums}">
                                         <a th:href="'/index/myOrder?pageNum='+${nav}" th:text="${nav}" th:if="${nav != orders.pageNum}"></a>
                                         <span style="font-weight: bold;background: #6faed9;" th:if="${nav == orders.pageNum}" th:text="${nav}" ></span>
@@ -104,7 +104,7 @@
                                     </li>
 
                                     <li>
-                                        <a th:href="'/index/myOrder?pageNum='+${orders.pages}">end page</a>
+                                        <a th:href="'/index/myOrder?pageNum='+${orders.pages}">end</a>
                                     </li>
                                 </ul>
                             </div>
@@ -144,9 +144,9 @@
                     var tr = $("<tr style='max-height: 200px;'></tr>");
                     tr.append($("<td ><img class='img_responsive' src='" + item.image + "'/></td>"));
                     tr.append($("<td style='text-align: left;width: 200px;'><a style='color: #01AAED;text-decoration: underline;' href='/front/goodDetail?id="+item.gid+"'>" + item.gname + "</a></td>"));
-                    tr.append($("<td>single price: " + item.money + "</td>"));
-                    tr.append($("<td>quantity: " + item.num + "</td>"));
-                    tr.append($("<td>total price: €" + item.money*item.num + "</td>"));
+                    tr.append($("<td>single price：" + item.money + "</td>"));
+                    tr.append($("<td>quantity：" + item.num + "</td>"));
+                    tr.append($("<td>total price：€" + item.money*item.num + "</td>"));
                     tbody.append(tr);
                 });
                 table.append(tbody);
@@ -170,7 +170,7 @@
         $.get("/index/quxiaoOrder?id=" + id, function (data) {
             layer.msg(data.message, {
                 icon: 1,
-                time: 2000 //2 seconds off（If not configured, the default is 3 seconds）
+                time: 2000
             }, function(){
                 window.location.href = "/index/myOrder";
             });

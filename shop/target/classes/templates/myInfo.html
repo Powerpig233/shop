@@ -49,30 +49,30 @@
                 <div class="layui-row" style="margin-top: 10px;">
                     <div id="cont" class="layui-col-xs12 layui-col-sm12 layui-col-md12 smaller">
                         <fieldset class="layui-elem-field layui-field-title">
-                            <legend>个人信息</legend>
+                            <legend>myInfo</legend>
                             <div class="layui-field-box">
                                 <form class="layui-form" action="/index/myInfoSubmit">
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label" style="width: 100px;">电话：</label>
+                                        <label class="layui-form-label" style="width: 100px;">phone：</label>
                                         <div class="layui-input-block">
                                             <input type="hidden" name="id" th:value="${session.userInfo.id}" />
                                             <input type="text" name="phone" th:value="${session.userInfo.phone}" lay-verify="required|phone"
-                                                   placeholder="请输您的联系电话"
+                                                   placeholder="Please enter your phone"
                                                    autocomplete="off" class="layui-input"/>
                                         </div>
                                     </div>
 
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label" style="width: 100px;">name:</label>
+                                        <label class="layui-form-label" style="width: 100px;">name：</label>
                                         <div class="layui-input-block">
                                             <input type="text" name="realname" th:value="${session.userInfo.realname}" required="required" lay-verify="required"
-                                                   placeholder="Please enter your name"
+                                                   placeholder="Please enter name"
                                                    autocomplete="off" class="layui-input"/>
                                         </div>
                                     </div>
 
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label" style="width: 100px;">gender: </label>
+                                        <label class="layui-form-label" style="width: 100px;">gender：</label>
                                         <div class="layui-input-block">
                                             <select id="sex" name="sex" class="form-control">
                                                 <th:block th:if="${session.userInfo.sex == 'male'}">
@@ -92,24 +92,24 @@
                                     </div>
 
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label" style="width: 110px;">Address: </label>
+                                        <label class="layui-form-label" style="width: 110px;">address：</label>
                                         <div class="layui-input-block">
-                                            <textarea name="address" placeholder="Please enter your address" class="layui-textarea" th:text="${session.userInfo.address}"></textarea></div>
+                                            <textarea name="address" placeholder="Please enter address" class="layui-textarea" th:text="${session.userInfo.address}"></textarea></div>
                                     </div>
 
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label" style="width: 100px;">old password: </label>
+                                        <label class="layui-form-label" style="width: 100px;">old password：</label>
                                         <div class="layui-input-block">
                                             <input type="password" name="password"
-                                                   placeholder="Please enter your password"  autocomplete="new-password" class="layui-input"/>
+                                                   placeholder="Please enter password"  autocomplete="new-password" class="layui-input"/>
                                         </div>
                                     </div>
 
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label" style="width: 110px;">change Password:</label>
+                                        <label class="layui-form-label" style="width: 110px;">change password：</label>
                                         <div class="layui-input-block">
                                             <input type="password" name="passwords"
-                                                   placeholder="Please enter your password"  autocomplete="new-password" class="layui-input"  onblur="checkpassword()"/>
+                                                   placeholder="Please enter password"  autocomplete="new-password" class="layui-input"  onblur="checkpassword()"/>
                                         </div>
                                     </div>
 
@@ -153,9 +153,9 @@
                     var tr = $("<tr style='max-height: 200px;'></tr>");
                     tr.append($("<td ><img class='img_responsive' src='" + item.image + "'/></td>"));
                     tr.append($("<td style='text-align: left;width: 200px;'><a style='color: #01AAED;text-decoration: underline;' href='/front/goodDetail?id="+item.gid+"'>" + item.gname + "</a></td>"));
-                    tr.append($("<td>single price: " + item.money + "</td>"));
-                    tr.append($("<td>quantity: " + item.num + "</td>"));
-                    tr.append($("<td>total price: €" + item.money + "</td>"));
+                    tr.append($("<td>single price：" + item.money + "</td>"));
+                    tr.append($("<td>quantity：" + item.num + "</td>"));
+                    tr.append($("<td>total price：€" + item.money + "</td>"));
                     tbody.append(tr);
                 });
                 table.append(tbody);

@@ -13,15 +13,15 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a class="nav-link page-scroll" href="/front/">home</a></li>
-                    <li><a class="nav-link page-scroll" href="/front/good">goods</a></li>
+                    <li><a class="nav-link page-scroll" href="/front/good">good</a></li>
                     <th:block th:if="${session.userInfo!=null && session.type == '02'}">
-                        <li><a class="nav-link page-scroll" href="/index/cart">cat</a></li>
-                        <li><a class="nav-link page-scroll" href="/index/myOrder">order</a></li>
+                        <li><a class="nav-link page-scroll" href="/index/cart">cart</a></li>
+                        <li><a class="nav-link page-scroll" href="/index/myOrder">myOrder</a></li>
                         <li><a class="nav-link page-scroll" href="/index/myInfo">myInfo</a></li>
-                        <li><a class="nav-link page-scroll" href="/logout">log out</a></li>
+                        <li><a class="nav-link page-scroll" href="/logout">logout</a></li>
                     </th:block>
                     <th:block th:if="${session.type == '01'}">
-                        <li><a class="nav-link page-scroll" href="/index">background</a></li>
+                        <li><a class="nav-link page-scroll" href="/index">enter backstage</a></li>
                     </th:block>
                     <th:block th:if="${session.userInfo==null}">
                         <li><a class="nav-link page-scroll" href="/">login</a></li>

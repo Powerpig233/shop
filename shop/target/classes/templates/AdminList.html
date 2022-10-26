@@ -112,15 +112,15 @@
         var form = layui.form;
 
 
-        //1st sample
+
         var tableIns = table.render({
             elem: '#test'
             ,height: 500
             ,where: {}
-            ,url: '/admin/list' //data
+            ,url: '/admin/list'
             ,page: true
             ,cols: [
-                [ //表头
+                [
                     {field: 'username', title: 'username', fixed: 'center'},
                     {field: 'password', title: 'password', fixed: 'center'},
                     {field: 'createTime', title: 'time', fixed: 'center'},
@@ -129,30 +129,25 @@
             ]
         });
 
-        /**
-         * query button event
-         * **/
+
         $("#btn_query").click(function(){
             tableIns.reload({
                 where:{
-                    //Corresponding query conditions
+
                       username:$("input[name=username]").val(),
                       password:$("input[name=password]").val(),
                 },page: {
-                    curr: 1 //restart from page 1
+                    curr: 1
                 }
             })
         });
 
-        /**
-         * Monitor table operations
-         *
-         * **/
+
         var editwindow ;
         table.on('tool(test)', function(obj){
             var data = obj.data;
             if(obj.event === 'del'){
-                top.layer.confirm('really delete the line?', function(index){
+                top.layer.confirm('real delete?', function(index){
                     $.ajax({
                         url:"/admin/del",
                         type:"post",
@@ -161,7 +156,7 @@
                             if(data.ret){
                                 obj.del();
                                 parent.layer.close(index);
-                                parent.layer.msg("delete successful! ")
+                                parent.layer.msg("delete successful!")
                             }
                         }
                     })
@@ -197,7 +192,7 @@
                                         tableIns.reload({
                                             where: {}
                                             ,page: {
-                                                curr: 1 //restart from page 1
+                                                curr: 1
                                             }
                                         });
                                     }
@@ -206,7 +201,7 @@
                         });
                     },
                     error:function(){
-                        layer.msg('Get failed',{icon:0,time:3000});
+                        layer.msg('fail',{icon:0,time:3000});
                     }
                 });
 
@@ -214,9 +209,7 @@
         });
 
 
-        /**
-        *  add
-        * */
+
         var addModel;
         $("#addInfo").click(function(){
             addModel = layer.open({
@@ -229,9 +222,7 @@
             });
         });
 
-        /**
-         *  monitor
-         */
+
         layui.form.on('submit(addSubmit)', function(data){
             $.ajax({
                 url:"/admin/add",
@@ -240,12 +231,12 @@
                 data: $("#addform").serialize(),
                 success:function (data) {
                     if(data.ret){
-                        parent.layer.msg("add successful! ");
+                        parent.layer.msg("add successful！");
                         layer.close(addModel);
                         tableIns.reload({
                             where: {}
                             ,page: {
-                                curr: 1 //Get failed
+                                curr: 1
                             }
                         });
                     }else{

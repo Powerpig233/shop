@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <base th:href="${#request.getContextPath()}+'/'">
-    <title>商品</title>
+    <title>good</title>
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/animate.css" rel="stylesheet">
     <link href="static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -40,18 +40,18 @@
 
             <div style="height: 50px;margin-left: 8px;">
                 <div style="float: left;font-size: 20px;">
-                    <a th:href="@{/front/good}"><i class="fa"></i>All Goods</a>
+                    <a th:href="@{/front/good}"><i class="fa"></i>all goods</a>
                 </div>
                 <div  style="float: right;margin-right: 12px;">
                     <form th:action="@{/front/good}" methed="post" name="search-form" id="search-form" class="form-inline">
                         <div class="input-group">
                             <select name="cid" class="form-control" style="height: 36px;margin-right: 10px;">
-                                <option value="">select category</option>
+                                <option value="">select</option>
                                 <option th:each="obj:${categories}" th:value="${obj.id}" th:text="${obj.name}"></option>
                             </select>
-                            <input type="text" name="searchName" value="" placeholder="Please enter a name"  class="form-control"  style="height: 36px;margin-right: 10px;">
+                            <input type="text" name="searchName" value="" placeholder="Please enter the name"  class="form-control"  style="height: 36px;margin-right: 10px;">
                             <span class="input-group-btn">
-                                  <input class="btn btn-info" type="submit" value="name search"></input>
+                                  <input class="btn btn-info" type="submit" value="search"></input>
                               </span>
                         </div>
                     </form>
@@ -69,7 +69,7 @@
 
                                 <div class="product-desc">
                                 <span class="product-price" th:text="'$'+${good.money}+'€'"></span>
-                                    <small class="text-muted" th:text="'category: '+${good.cname}"></small>
+                                    <small class="text-muted" th:text="'category：'+${good.cname}"></small>
                                     <a href="#" class="product-name" th:text="${#strings.abbreviate(good.name,13)}" style="margin-top: 10px;"> </a>
                                     <div class="m-t text-righ">
                                         <a th:href="@{/front/goodDetail?id={id}(id=${good.id})}" class="btn btn-xs btn-outline btn-primary">description <i class="fa fa-long-arrow-right"></i> </a>
@@ -84,13 +84,13 @@
            </section>
 
 
-            <!--Show pagination information-->
+
             <div class="row" style="margin-top: 50px;">
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <div class="modal-footer no-margin-top" style="justify-content: center;">
                     <span style="margin-bottom: 13px;font-size: 15px;margin-right: 15px;">
-                        current [[${goods.pageNum}]]page，all [[${goods.pages}]] page， [[${goods.total}]] records
+                        current [[${goods.pageNum}]]page,all[[${goods.pages}]]page,[[${goods.total}]] record
                     </span>
                     <ul class="pagination pull-right no-margin">
                         <li th:if="${goods.hasPreviousPage}">
@@ -102,7 +102,7 @@
                                 <i class="ace-icon fa fa-angle-double-left"></i>
                             </a>
                         </li>
-                        <!--traverse-->
+
                         <li th:each="nav:${goods.navigatepageNums}">
                             <a th:href="'/front/good?pageNum='+${nav}" th:text="${nav}" th:if="${nav != goods.pageNum}"></a>
                             <span style="font-weight: bold;background: #6faed9;" th:if="${nav == goods.pageNum}" th:text="${nav}" ></span>
@@ -115,7 +115,7 @@
                         </li>
 
                         <li>
-                            <a th:href="'/front/good?pageNum='+${goods.pages}">end page</a>
+                            <a th:href="'/front/good?pageNum='+${goods.pages}">end</a>
                         </li>
                     </ul>
                 </div>

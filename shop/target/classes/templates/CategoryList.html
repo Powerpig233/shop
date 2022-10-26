@@ -26,7 +26,7 @@
             <div class="layui-row layui-form-item">
 
                 <div class="layui-col-xs3">
-                    <label class="layui-form-label">Category Name: </label>
+                    <label class="layui-form-label">category：</label>
                     <div class="layui-input-block">
                         <input type="text" name="name" placeholder="" autocomplete="off" class="layui-input">
                     </div>
@@ -48,13 +48,13 @@
         <form class="layui-form" id="addform" style="padding: 15px 30px 15px 0px;" action="">
 
             <div class="layui-form-item">
-                <label class="layui-form-label">Category Name: </label>
+                <label class="layui-form-label">category:</label>
                 <div class="layui-input-block">
                     <input type="text" name="name" lay-verify="required" placeholder="Please enter information"  class="layui-input" >
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">description: </label>
+                <label class="layui-form-label">description:</label>
                 <div class="layui-input-block">
                     <textarea name="remark" placeholder="Please enter content" class="layui-textarea" ></textarea>
                 </div>
@@ -76,15 +76,15 @@
             <input type="hidden" name="id" id="id">
 
             <div class="layui-form-item">
-                <label class="layui-form-label">Category Name: </label>
+                <label class="layui-form-label">category:</label>
                 <div class="layui-input-block">
                     <input type="text" name="name" lay-verify="required" class="layui-input" id="name" >
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">description: </label>
+                <label class="layui-form-label">description:</label>
                 <div class="layui-input-block">
-                    <textarea name="remark" placeholder="请输入内容" class="layui-textarea" id="remark" ></textarea>
+                    <textarea name="remark" placeholder="Please enter content" class="layui-textarea" id="remark" ></textarea>
                 </div>
             </div>
 
@@ -112,16 +112,16 @@
         var form = layui.form;
 
 
-        //1st sample
+
         var tableIns = table.render({
             elem: '#test'
             ,height: 500
             ,where: {}
-            ,url: '/category/list' //data
+            ,url: '/category/list'
             ,page: true
             ,cols: [
                 [
-                    {field: 'name', title: 'Category Name', fixed: 'center'},
+                    {field: 'name', title: 'category', fixed: 'center'},
                     {field: 'remark', title: 'description', fixed: 'center'},
                     {field: 'createTime', title: 'time', fixed: 'center'},
                     {fixed: 'right', title:'operation', width:230, toolbar: '#barDemo'}
@@ -129,12 +129,11 @@
             ]
         });
 
-        /**
-         * query
-         * **/
+
         $("#btn_query").click(function(){
             tableIns.reload({
                 where:{
+
                       name:$("input[name=name]").val(),
                       remark:$("input[name=remark]").val(),
                 },page: {
@@ -143,15 +142,12 @@
             })
         });
 
-        /**
-         * monitor list
-         *
-         * **/
+
         var editwindow ;
         table.on('tool(test)', function(obj){
             var data = obj.data;
             if(obj.event === 'del'){
-                top.layer.confirm('really delete the line?', function(index){
+                top.layer.confirm('real delete?', function(index){
                     $.ajax({
                         url:"/category/del",
                         type:"post",
@@ -160,7 +156,7 @@
                             if(data.ret){
                                 obj.del();
                                 parent.layer.close(index);
-                                parent.layer.msg("delete successful! ")
+                                parent.layer.msg("delete successful!")
                             }
                         }
                     })
@@ -205,7 +201,7 @@
                         });
                     },
                     error:function(){
-                        layer.msg('Get fail',{icon:0,time:3000});
+                        layer.msg('fail',{icon:0,time:3000});
                     }
                 });
 
@@ -213,9 +209,7 @@
         });
 
 
-        /**
-        *  add
-        * */
+
         var addModel;
         $("#addInfo").click(function(){
             addModel = layer.open({
@@ -228,9 +222,7 @@
             });
         });
 
-        /**
-         *  monitor add
-         */
+
         layui.form.on('submit(addSubmit)', function(data){
             $.ajax({
                 url:"/category/add",
@@ -239,7 +231,7 @@
                 data: $("#addform").serialize(),
                 success:function (data) {
                     if(data.ret){
-                        parent.layer.msg("add successful! ");
+                        parent.layer.msg("successful！");
                         layer.close(addModel);
                         tableIns.reload({
                             where: {}

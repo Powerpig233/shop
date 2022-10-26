@@ -26,7 +26,7 @@
             <div class="layui-row layui-form-item">
 
                 <div class="layui-col-xs3">
-                    <label class="layui-form-label">phone number: </label>
+                    <label class="layui-form-label">phone：</label>
                     <div class="layui-input-block">
                         <input type="text" name="phone" placeholder="" autocomplete="off" class="layui-input">
                     </div>
@@ -48,7 +48,7 @@
         <form class="layui-form" id="addform" style="padding: 15px 30px 15px 0px;" action="">
 
             <div class="layui-form-item">
-                <label class="layui-form-label">phone number:</label>
+                <label class="layui-form-label">phone:</label>
                 <div class="layui-input-block">
                     <input type="text" name="phone" lay-verify="phone" placeholder="Please enter information"  class="layui-input" >
                 </div>
@@ -75,7 +75,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">address: </label>
+                <label class="layui-form-label">address:</label>
                 <div class="layui-input-block">
                     <textarea name="address" placeholder="Please enter content" class="layui-textarea"></textarea>
                 </div>
@@ -97,7 +97,7 @@
             <input type="hidden" name="id" id="id">
 
             <div class="layui-form-item">
-                <label class="layui-form-label">phone number:</label>
+                <label class="layui-form-label">phone:</label>
                 <div class="layui-input-block">
                     <input type="text" name="phone" lay-verify="required" class="layui-input" id="phone" >
                 </div>
@@ -154,13 +154,13 @@
         var form = layui.form;
 
 
-        //1st sample
+
         var tableIns = table.render({
             elem: '#test'
             ,height: 500
             ,where: {}
-            ,url: '/user/list' //data
-            ,page: true /
+            ,url: '/user/list'
+            ,page: true
             ,cols: [
                 [
                     {field: 'phone', title: 'phone', fixed: 'center'},
@@ -174,12 +174,11 @@
             ]
         });
 
-        /**
-         * query
-         * **/
+
         $("#btn_query").click(function(){
             tableIns.reload({
                 where:{
+
                       phone:$("input[name=phone]").val(),
                       password:$("input[name=password]").val(),
                       realname:$("input[name=realname]").val(),
@@ -191,15 +190,12 @@
             })
         });
 
-        /**
-         * monitor list
-         *
-         * **/
+
         var editwindow ;
         table.on('tool(test)', function(obj){
             var data = obj.data;
             if(obj.event === 'del'){
-                top.layer.confirm('really delete the line?', function(index){
+                top.layer.confirm('real delete?', function(index){
                     $.ajax({
                         url:"/user/del",
                         type:"post",
@@ -208,7 +204,7 @@
                             if(data.ret){
                                 obj.del();
                                 parent.layer.close(index);
-                                parent.layer.msg("delete successful! ")
+                                parent.layer.msg("successful!")
                             }
                         }
                     })
@@ -256,7 +252,7 @@
                         });
                     },
                     error:function(){
-                        layer.msg('Get fail',{icon:0,time:3000});
+                        layer.msg('fail',{icon:0,time:3000});
                     }
                 });
 
@@ -264,9 +260,7 @@
         });
 
 
-        /**
-        *  add
-        * */
+
         var addModel;
         $("#addInfo").click(function(){
             addModel = layer.open({
@@ -279,9 +273,7 @@
             });
         });
 
-        /**
-         *  monitor add
-         */
+
         layui.form.on('submit(addSubmit)', function(data){
             $.ajax({
                 url:"/user/add",
@@ -290,7 +282,7 @@
                 data: $("#addform").serialize(),
                 success:function (data) {
                     if(data.ret){
-                        parent.layer.msg("add successful! ");
+                        parent.layer.msg("successful！");
                         layer.close(addModel);
                         tableIns.reload({
                             where: {}

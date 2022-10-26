@@ -16,20 +16,20 @@
 
     <div class="middle-box text-center loginscreen   animated fadeInDown">
         <div style="margin: 160px 0;">
-            <h3>register account</h3>
+            <h3>register</h3>
             <form class="m-t" role="form" id ="registerForm">
                 <div class="form-group">
-                    <input type="username" name="phone" class="form-control" placeholder="phone number" required="">
+                    <input type="username" name="phone" class="form-control" placeholder="phone" required="">
                 </div>
                 <div class="form-group">
                     <input type="password" name="password" id="password" class="form-control" placeholder="password" required="">
                 </div>
                 <div class="form-group">
-                    <input type="password" name="repassword" id="password2" class="form-control" placeholder="repeat password" required="">
+                    <input type="password" name="repassword" id="password2" class="form-control" placeholder="password again" required="">
                 </div>
                 <button type="button" class="btn btn-primary block full-width m-b" id="registerBtn">register</button>
                 <span id="registerInfo" style="color: red; margin-left: 20px;" ></span>
-                <p class="text-muted text-center"><small>already have an account?</small></p>
+                <p class="text-muted text-center"><small>already has account?</small></p>
                 <a class="btn btn-sm btn-white btn-block" href="/">login</a>
             </form>
         </div>
@@ -46,17 +46,17 @@
                     data:$("#registerForm").serialize(),
                     success:function(res){
                         if(res=='201'){
-                            $("#registerInfo").text("Please fill in your phone number or password! ");
+                            $("#registerInfo").text("Please fill in your phone number or password！");
                         }else if(res=='202'){
-                            $("#registerInfo").text("The passwords entered twice do not match! ");
+                            $("#registerInfo").text("The passwords entered twice do not match！");
                         }else if(res=='203'){
-                            $("#registerInfo").text("system error! ");
+                            $("#registerInfo").text("system error！");
                         }else if(res=='204'){
-                            $("#registerInfo").text("The phone number is duplicated, please try again! ");
+                            $("#registerInfo").text("The phone number is duplicated, please try again!");
                         }else if(res=='205'){
-                            $("#registerInfo").text("The phone number is in the wrong format, please try again! ");
+                            $("#registerInfo").text("Phone number format error, please try again！");
                         }else{
-                            $("#registerInfo").text("registration success! ");
+                            $("#registerInfo").text("successful！");
                         }
                     }
                 })

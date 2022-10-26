@@ -34,13 +34,13 @@
         <form class="layui-form" id="searhFrom">
             <div class="layui-row layui-form-item">
                 <div class="layui-col-xs3">
-                    <label class="layui-form-label">name: </label>
+                    <label class="layui-form-label">name：</label>
                     <div class="layui-input-block">
                         <input type="text" name="name" placeholder="" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-col-xs3">
-                    <label class="layui-form-label">category: </label>
+                    <label class="layui-form-label">category：</label>
                     <div class="layui-input-block">
                         <select name="cid" class="form-control">
                             <option value=""></option>
@@ -64,7 +64,7 @@
     <div id="addModel" style="display: none">
         <form class="layui-form" id="addform" style="padding: 15px 30px 15px 0px;" action="">
             <div class="layui-form-item">
-                <label class="layui-form-label">good image:</label>
+                <label class="layui-form-label">image:</label>
                 <div class="layui-input-block">
                     <input type="hidden" name="image" id="image" >
                     <div id="dropz" class="dropzone"></div>
@@ -72,7 +72,7 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">name: </label>
+                <label class="layui-form-label">name:</label>
                 <div class="layui-input-block">
                     <input type="text" name="name" lay-verify="required" placeholder="Please enter information"  class="layui-input" >
                 </div>
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">good description:</label>
+                <label class="layui-form-label">description:</label>
                 <div class="layui-input-block">
                     <input type="hidden" name="content" id="content1" class="form-control"  placeholder="">
                     <div id="editor" style="width: 650px;"></div>
@@ -114,7 +114,7 @@
 
             <input type="hidden" name="id" id="id">
             <div class="layui-form-item">
-                <label class="layui-form-label">good image:</label>
+                <label class="layui-form-label">image:</label>
                 <div class="layui-input-block">
                     <input type="hidden" name="image" id="image2" >
                     <div id="dropz" class="dropzone"></div>
@@ -122,7 +122,7 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">name:</label>
+                <label class="layui-form-label">category:</label>
                 <div class="layui-input-block">
                     <input type="text" name="name" lay-verify="required" class="layui-input" id="name" >
                 </div>
@@ -142,7 +142,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">good description:</label>
+                <label class="layui-form-label">description:</label>
                 <div class="layui-input-block">
                     <input type="hidden" name="content" id="content2" class="form-control"  placeholder="edit">
                     <div id="editor2" style="width: 650px;"></div>
@@ -175,7 +175,7 @@
         form.verify({
             money: function(val, item) {
                 if(!/^\d+(\.\d{0,2})?$/.test(val)){
-                    return 'Please enter the correct amount format'
+                    return 'Please enter right format'
                 }
             }
         });
@@ -185,15 +185,15 @@
             method: "post",
             autoQueue: true,
             maxFiles:1,
-            dictMaxFilesExceeded: "You can only upload up to 1 file!",
+            dictMaxFilesExceeded: "Only 1 file！",
             maxFilesize: 20, //MB
-            dictDefaultMessage: 'Drag the file here or click to upload', // Set the default prompt statement
-            paramName: "dropFile",// The name of the parameter passed to the background
+            dictDefaultMessage: 'Drag the file here or click to upload',
+            paramName: "dropFile",
             init: function () {
                 this.on("success", function (file, data) {
                     $("#image").val(data.fileName);
                     $("#image2").val(data.fileName);
-                    // Upload successfully triggered event
+
                 });
             }
         };
@@ -202,13 +202,13 @@
         // wangEditor
         var E = window.wangEditor;
         var editor = new E('#editor');
-        // Configure server-side address
+
         editor.customConfig.uploadImgServer = '/file/ContentUpload';
-        // Limit image size to 3M, default to 5MB
+
         editor.customConfig.uploadImgMaxSize = 10 * 1024 * 1024;
-        // Limit uploads of up to 20 images at a time
+
         editor.customConfig.uploadImgMaxLength = 20;
-        // customize fileName
+
         editor.customConfig.uploadFileName = 'dropFile';
         editor.create();
         editor.customConfig.uploadImgHooks = {
@@ -218,13 +218,13 @@
 
         var V = window.wangEditor;
         var editor2 = new V('#editor2');
-        // Configure server-side address
+
         editor2.customConfig.uploadImgServer = '/file/ContentUpload';
-        // Limit image size to 3M, default to 5MB
+
         editor2.customConfig.uploadImgMaxSize = 10 * 1024 * 1024;
-        // Limit uploads of up to 20 images at a time
+
         editor2.customConfig.uploadImgMaxLength = 20;
-        // customize fileName
+
         editor2.customConfig.uploadFileName = 'dropFile';
         editor2.create();
         editor2.customConfig.uploadImgHooks = {
@@ -233,34 +233,33 @@
         };
 
 
-        //1st sample
+
         var tableIns = table.render({
             elem: '#test'
             ,height: 500
             ,where: {}
-            ,url: '/goods/list' //data
+            ,url: '/goods/list'
             ,page: true
             ,cols: [
                 [
-                    {field: 'image', title: 'good image', fixed: 'center',
+                    {field: 'image', title: 'image', fixed: 'center',
                         templet:function (d) { return '<div><img style="width: 30px;" src='+d.image+'></div>' }
                     },
                     {field: 'name', title: 'name', fixed: 'center'},
                     {field: 'cname', title: 'category', fixed: 'center'},
                     {field: 'money', title: 'price', fixed: 'center'},
-                    {field: 'content', title: 'good description', fixed: 'center'},
+                    {field: 'content', title: 'description', fixed: 'center'},
                     {field: 'createTime', title: 'time', fixed: 'center'},
                     {fixed: 'right', title:'operation', width:230, toolbar: '#barDemo'}
                 ]
             ]
         });
 
-        /**
-         * query
-         * **/
+
         $("#btn_query").click(function(){
             tableIns.reload({
                 where:{
+
                       image:$("input[name=image]").val(),
                       sid:$("select[name=sid]").val(),
                       name:$("input[name=name]").val(),
@@ -275,15 +274,12 @@
             })
         });
 
-        /**
-         * monitor list
-         *
-         * **/
+
         var editwindow ;
         table.on('tool(test)', function(obj){
             var data = obj.data;
             if(obj.event === 'del'){
-                top.layer.confirm('really delete the line?', function(index){
+                top.layer.confirm('real delete?', function(index){
                     $.ajax({
                         url:"/goods/del",
                         type:"post",
@@ -292,7 +288,7 @@
                             if(data.ret){
                                 obj.del();
                                 parent.layer.close(index);
-                                parent.layer.msg("delete successful! ")
+                                parent.layer.msg("delete successful!")
                             }
                         }
                     })
@@ -345,7 +341,7 @@
                         });
                     },
                     error:function(){
-                        layer.msg('Get fail',{icon:0,time:3000});
+                        layer.msg('fail',{icon:0,time:3000});
                     }
                 });
 
@@ -353,9 +349,7 @@
         });
 
 
-        /**
-        *  add
-        * */
+
         var addModel;
         $("#addInfo").click(function(){
             addModel = layer.open({
@@ -368,9 +362,7 @@
             });
         });
 
-        /**
-         *  monitor
-         */
+
         layui.form.on('submit(addSubmit)', function(data){
             var addHtml = editor.txt.html();
             $("#content1").val(addHtml);
@@ -381,7 +373,7 @@
                 data: $("#addform").serialize(),
                 success:function (data) {
                     if(data.ret){
-                        parent.layer.msg("add successful! ");
+                        parent.layer.msg("successful！");
                         layer.close(addModel);
                         tableIns.reload({
                             where: {}

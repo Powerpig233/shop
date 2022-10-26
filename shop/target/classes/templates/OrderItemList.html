@@ -26,7 +26,7 @@
             <div class="layui-row layui-form-item">
 
                 <div class="layui-col-xs3">
-                    <label class="layui-form-label">order number: </label>
+                    <label class="layui-form-label">order No.：</label>
                     <div class="layui-input-block">
                         <input type="text" name="no" placeholder="" autocomplete="off" class="layui-input">
                     </div>
@@ -134,16 +134,16 @@
         var form = layui.form;
 
 
-        //1st sample
+
         var tableIns = table.render({
             elem: '#test'
             ,height: 500
             ,where: {}
-            ,url: '/orderItem/list' //data
+            ,url: '/orderItem/list'
             ,page: true
             ,cols: [
                 [
-                    {field: 'oname', title: 'order number', fixed: 'center'},
+                    {field: 'oname', title: 'id', fixed: 'center'},
                     {field: 'gname', title: 'good', fixed: 'center'},
                     {field: 'num', title: 'quantity', fixed: 'center'},
                     {field: 'money', title: 'price', fixed: 'center'},
@@ -153,12 +153,11 @@
             ]
         });
 
-        /**
-         * query
-         * **/
+
         $("#btn_query").click(function(){
             tableIns.reload({
                 where:{
+
                       no:$("input[name=no]").val()
                 },page: {
                     curr: 1
@@ -166,15 +165,12 @@
             })
         });
 
-        /**
-         * monitor list
-         *
-         * **/
+
         var editwindow ;
         table.on('tool(test)', function(obj){
             var data = obj.data;
             if(obj.event === 'del'){
-                top.layer.confirm('really delete the line?', function(index){
+                top.layer.confirm('real delete?', function(index){
                     $.ajax({
                         url:"/orderItem/del",
                         type:"post",
@@ -183,7 +179,7 @@
                             if(data.ret){
                                 obj.del();
                                 parent.layer.close(index);
-                                parent.layer.msg("delete successful! ")
+                                parent.layer.msg("delete successful!")
                             }
                         }
                     })
@@ -230,7 +226,7 @@
                         });
                     },
                     error:function(){
-                        layer.msg('Get fail',{icon:0,time:3000});
+                        layer.msg('fail',{icon:0,time:3000});
                     }
                 });
 
@@ -238,9 +234,7 @@
         });
 
 
-        /**
-        *  add
-        * */
+
         var addModel;
         $("#addInfo").click(function(){
             addModel = layer.open({
@@ -253,9 +247,7 @@
             });
         });
 
-        /**
-         *  monitor add
-         */
+
         layui.form.on('submit(addSubmit)', function(data){
             $.ajax({
                 url:"/orderItem/add",
@@ -264,7 +256,7 @@
                 data: $("#addform").serialize(),
                 success:function (data) {
                     if(data.ret){
-                        parent.layer.msg("添加成功！");
+                        parent.layer.msg("successful！");
                         layer.close(addModel);
                         tableIns.reload({
                             where: {}
