@@ -47,7 +47,7 @@ public class FileController {
             e.printStackTrace();
         }
         //to the front end
-        result.put("fileName", "http://localhost:"+port+"/upload/"+file.getName());
+        result.put("fileName", "http://localhost:"+port+"/static/upload/"+file.getName());
         return result;
     }
 

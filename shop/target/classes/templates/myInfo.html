@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <base th:href="${#request.getContextPath()}+'/'">
-    <title>myInfo</title>
+    <title>我的信息</title>
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/animate.css" rel="stylesheet">
     <link href="static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -49,74 +49,74 @@
                 <div class="layui-row" style="margin-top: 10px;">
                     <div id="cont" class="layui-col-xs12 layui-col-sm12 layui-col-md12 smaller">
                         <fieldset class="layui-elem-field layui-field-title">
-                            <legend>myInfo</legend>
+                            <legend>个人信息</legend>
                             <div class="layui-field-box">
                                 <form class="layui-form" action="/index/myInfoSubmit">
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label" style="width: 100px;">phone：</label>
+                                        <label class="layui-form-label" style="width: 100px;">电话：</label>
                                         <div class="layui-input-block">
                                             <input type="hidden" name="id" th:value="${session.userInfo.id}" />
                                             <input type="text" name="phone" th:value="${session.userInfo.phone}" lay-verify="required|phone"
-                                                   placeholder="Please enter your phone"
+                                                   placeholder="请输您的联系电话"
                                                    autocomplete="off" class="layui-input"/>
                                         </div>
                                     </div>
 
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label" style="width: 100px;">name：</label>
+                                        <label class="layui-form-label" style="width: 100px;">姓名：</label>
                                         <div class="layui-input-block">
                                             <input type="text" name="realname" th:value="${session.userInfo.realname}" required="required" lay-verify="required"
-                                                   placeholder="Please enter name"
+                                                   placeholder="请输您的姓名"
                                                    autocomplete="off" class="layui-input"/>
                                         </div>
                                     </div>
 
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label" style="width: 100px;">gender：</label>
+                                        <label class="layui-form-label" style="width: 100px;">性别：</label>
                                         <div class="layui-input-block">
                                             <select id="sex" name="sex" class="form-control">
-                                                <th:block th:if="${session.userInfo.sex == 'male'}">
-                                                    <option value="male" selected>male</option>
-                                                    <option value="female">female</option>
+                                                <th:block th:if="${session.userInfo.sex == '男'}">
+                                                    <option value="男" selected>男</option>
+                                                    <option value="女">女</option>
                                                 </th:block>
-                                                <th:block th:if="${session.userInfo.sex == 'female'}">
-                                                    <option value="male">male</option>
-                                                    <option value="female" selected>female</option>
+                                                <th:block th:if="${session.userInfo.sex == '女'}">
+                                                    <option value="男">男</option>
+                                                    <option value="女" selected>女</option>
                                                 </th:block>
-                                                <th:block th:if="${session.userInfo.sex != 'female' && session.userInfo.sex != 'male'}">
-                                                    <option value="male">male</option>
-                                                    <option value="female">female</option>
+                                                <th:block th:if="${session.userInfo.sex != '女' && session.userInfo.sex != '男'}">
+                                                    <option value="男">男</option>
+                                                    <option value="女">女</option>
                                                 </th:block>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label" style="width: 110px;">address：</label>
+                                        <label class="layui-form-label" style="width: 110px;">详细地址：</label>
                                         <div class="layui-input-block">
-                                            <textarea name="address" placeholder="Please enter address" class="layui-textarea" th:text="${session.userInfo.address}"></textarea></div>
+                                            <textarea name="address" placeholder="请输入您的地址" class="layui-textarea" th:text="${session.userInfo.address}"></textarea></div>
                                     </div>
 
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label" style="width: 100px;">old password：</label>
+                                        <label class="layui-form-label" style="width: 100px;">原密码：</label>
                                         <div class="layui-input-block">
                                             <input type="password" name="password"
-                                                   placeholder="Please enter password"  autocomplete="new-password" class="layui-input"/>
+                                                   placeholder="请输入密码"  autocomplete="new-password" class="layui-input"/>
                                         </div>
                                     </div>
 
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label" style="width: 110px;">change password：</label>
+                                        <label class="layui-form-label" style="width: 110px;">修改密码：</label>
                                         <div class="layui-input-block">
                                             <input type="password" name="passwords"
-                                                   placeholder="Please enter password"  autocomplete="new-password" class="layui-input"  onblur="checkpassword()"/>
+                                                   placeholder="请输入密码"  autocomplete="new-password" class="layui-input"  onblur="checkpassword()"/>
                                         </div>
                                     </div>
 
                                     <div class="layui-form-item">
                                         <div class="layui-input-block">
                                             <button id="commit" class="layui-btn layui-btn-lg layui-btn-radius layui-btn-success"
-                                                    lay-submit="lay-submit" lay-filter="formReg">change
+                                                    lay-submit="lay-submit" lay-filter="formReg">修改
                                             </button>
                                             <span style="color: red;" th:text="${msg}"></span>
                                         </div>
@@ -153,9 +153,9 @@
                     var tr = $("<tr style='max-height: 200px;'></tr>");
                     tr.append($("<td ><img class='img_responsive' src='" + item.image + "'/></td>"));
                     tr.append($("<td style='text-align: left;width: 200px;'><a style='color: #01AAED;text-decoration: underline;' href='/front/goodDetail?id="+item.gid+"'>" + item.gname + "</a></td>"));
-                    tr.append($("<td>single price：" + item.money + "</td>"));
-                    tr.append($("<td>quantity：" + item.num + "</td>"));
-                    tr.append($("<td>total price：€" + item.money + "</td>"));
+                    tr.append($("<td>单价：" + item.money + "</td>"));
+                    tr.append($("<td>数量：" + item.num + "</td>"));
+                    tr.append($("<td>总价：￥" + item.money + "</td>"));
                     tbody.append(tr);
                 });
                 table.append(tbody);

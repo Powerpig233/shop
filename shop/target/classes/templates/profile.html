@@ -22,38 +22,38 @@
     <div class="col-lg-7">
         <div class="ibox ">
             <div class="ibox-title">
-                <h5>myInfo <small></small></h5>
+                <h5>我的个人信息 <small></small></h5>
             </div>
             <div class="ibox-content">
                 <div class="row">
                     <div class="col-sm-6 b-r">
                         <form role="form" id="profileForm">
                             <input type="hidden" name="id" th:value="${session.userInfo.id}" >
-                            <div class="form-group" th:if="${session.type eq '01'}"><label>username</label> <input type="text" name="username" th:value="${session.userInfo.username}" class="form-control"></div>
-                            <div class="form-group" th:if="${session.type ne '01'}"><label>name</label> <input type="text" name="realname" th:value="${session.userInfo.realname}" class="form-control"></div>
+                            <div class="form-group" th:if="${session.type eq '01'}"><label>用户名</label> <input type="text" name="username" th:value="${session.userInfo.username}" class="form-control"></div>
+                            <div class="form-group" th:if="${session.type ne '01'}"><label>姓名</label> <input type="text" name="realname" th:value="${session.userInfo.realname}" class="form-control"></div>
                             <div class="form-group" th:if="${session.type ne '01'}">
-                                <label>gender</label>
+                                <label>性别</label>
                                 <select id="sex" name="sex" class="form-control">
-                                    <th:block th:if="${session.userInfo.sex == 'male'}">
-                                        <option value="male" selected>male</option>
-                                        <option value="female">female</option>
+                                    <th:block th:if="${session.userInfo.sex == '男'}">
+                                        <option value="男" selected>男</option>
+                                        <option value="女">女</option>
                                     </th:block>
                                     <th:block th:if="${session.userInfo.sex == '女'}">
-                                        <option value="male">male</option>
-                                        <option value="female" selected>female</option>
+                                        <option value="男">男</option>
+                                        <option value="女" selected>女</option>
                                     </th:block>
-                                    <th:block th:if="${session.userInfo.sex != 'female' && session.userInfo.sex != 'male'}">
-                                        <option value="male">male</option>
-                                        <option value="female">female</option>
+                                    <th:block th:if="${session.userInfo.sex != '女' && session.userInfo.sex != '男'}">
+                                        <option value="男">男</option>
+                                        <option value="女">女</option>
                                     </th:block>
                                 </select>
                             </div>
-                            <div class="form-group" th:if="${session.type ne '01'}"><label>phone</label> <input type="text" name="phone" th:value="${session.userInfo.phone}" class="form-control"></div>
-                            <div class="form-group" th:if="${session.type eq '02'}"><label>address</label> <input type="text" name="address" th:value="${session.userInfo.address}" class="form-control"></div>
-                            <div class="form-group"><label>old password</label> <input type="password" id="initpassword" name="initpassword" class="form-control"></div>
-                            <div class="form-group"><label>change password</label> <input type="password" id="password" name="password" class="form-control"></div>
+                            <div class="form-group" th:if="${session.type ne '01'}"><label>手机号</label> <input type="text" name="phone" th:value="${session.userInfo.phone}" class="form-control"></div>
+                            <div class="form-group" th:if="${session.type eq '02'}"><label>地址</label> <input type="text" name="address" th:value="${session.userInfo.address}" class="form-control"></div>
+                            <div class="form-group"><label>原密码</label> <input type="password" id="initpassword" name="initpassword" class="form-control"></div>
+                            <div class="form-group"><label>修改密码</label> <input type="password" id="password" name="password" class="form-control"></div>
                             <div>
-                                <button class="btn btn-sm btn-primary float-right m-t-n-xs" id="updateSub"><strong>upload</strong></button>
+                                <button class="btn btn-sm btn-primary float-right m-t-n-xs" id="updateSub"><strong>更新</strong></button>
                             </div>
                         </form>
                     </div>
@@ -78,20 +78,22 @@
     var type= '[[${session.type}]]';
 
     laydate.render({
-        elem: '#start'
+        elem: '#start' //指定元素
     });
 
-
+    /**
+     *  监听 提交按钮
+     */
     $("#updateSub").click(function(){
         var initpassword = document.getElementById("initpassword").value;
         var password = document.getElementById("password").value;
         var real_password= '[[${session.userInfo.password}]]';
         if(initpassword==null || initpassword == ""){
-            parent.layer.msg("Can't be empty！");
+            parent.layer.msg("原密码不能为空！");
             return false;
         }
         if(initpassword != real_password){
-            parent.layer.msg("Wrong！");
+            parent.layer.msg("原密码错误！");
             return false;
         }
         var urls="";
@@ -107,12 +109,12 @@
             data: $("#profileForm").serialize(),
             success:function (data) {
                 if(data.ret){
-                    parent.layer.msg("The update is successful, please log out and log in again!")
+                    parent.layer.msg("更新成功，请退出后重新登录！")
                 }else{
                     parent.layer.msg(data.msg)
                 }
             },error:function(data){
-                parent.layer.msg("ERROR");
+                parent.layer.msg("出现错误");
             }
         });
         return false;

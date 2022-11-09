@@ -8,7 +8,7 @@ spring:
         driverClassName: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://localhost:3306/t_shop?useUnicode=true&characterEncoding=UTF-8
         username: root
-        password:  Meng3220175.  #mac 990213 # windows Meng3220175
+        password:  Meng3220175 #Meng3220175.  #mac 990213 # windows
         # 初始化大小，最小，最大
         initialSize: 1
         minIdle: 3
@@ -40,4 +40,4 @@ mapper:
     not-empty: false
     identity: MYSQL
 
-uploadDir: /Users/mwh/Desktop/seafood shop/seaFood-Shop/upload
+uploadDir: C:\Users\1\Desktop\新建文件夹 (2)\seaFood-Shop\seaFood-Shop

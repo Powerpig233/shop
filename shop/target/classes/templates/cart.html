@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <base th:href="${#request.getContextPath()}+'/'">
-    <title>cart</title>
+    <title>购物车</title>
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/animate.css" rel="stylesheet">
     <link href="static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -41,8 +41,8 @@
 
                 <div class="ibox">
                     <div class="ibox-title">
-                        <span class="float-right">(<strong>[[${carts.size}]]</strong>) good</span>
-                        <h5>good in cart</h5>
+                        <span class="float-right">(<strong>[[${carts.size}]]</strong>) 商品</span>
+                        <h5>购物车物品</h5>
                     </div>
                     <div class="ibox-content"  th:each="cart:${carts.list}">
 
@@ -61,17 +61,17 @@
                                             </a>
                                         </h3>
                                         <dl class="small m-b-none">
-                                            <dt th:text="'category：'+${cart.goods.cname}"></dt>
+                                            <dt th:text="'商品分类：'+${cart.goods.cname}"></dt>
                                         </dl>
 
                                         <div class="m-t-sm">
-                                            <a th:href="@{/cart/delete?id={id}(id=${cart.id})}" class="text-muted"><i class="fa fa-trash"></i> delete</a>
+                                            <a th:href="@{/cart/delete?id={id}(id=${cart.id})}" class="text-muted"><i class="fa fa-trash"></i> 删除商品</a>
                                         </div>
                                     </td>
 
-                                    <td th:text="'price：'+${cart.goods.money}"></td>
-                                    <td th:text="'quantity：'+${cart.num}"></td>
-                                    <td style="width: 10%;" th:text="'total price：'+${cart.total}"></td>
+                                    <td th:text="'价格：'+${cart.goods.money}"></td>
+                                    <td th:text="'数量：'+${cart.num}"></td>
+                                    <td style="width: 10%;" th:text="'总价：'+${cart.total}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -81,24 +81,24 @@
 
                     <div class="ibox-content">
 
-                        <button onclick="myOrder()" style="color: #f9f8f8;" class="btn btn-primary float-right"><i class="fa fa fa-shopping-cart"></i> order</button>
-                        <a href="/front/good"><button class="btn btn-white"><i class="fa fa-arrow-left"></i> continue</button></a>
+                        <button onclick="myOrder()" style="color: #f9f8f8;" class="btn btn-primary float-right"><i class="fa fa fa-shopping-cart"></i> 下单</button>
+                        <a href="/front/good"><button class="btn btn-white"><i class="fa fa-arrow-left"></i> 继续购物</button></a>
 
                     </div>
 
 
 
-
+                    <!--显示分页信息-->
                     <div class="row" style="margin-top: 50px;">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
                             <div class="modal-footer no-margin-top" style="justify-content: center;">
                     <span style="font-size: 15px;margin-right: 15px;">
-                        curren [[${carts.pageNum}]]page,all [[${carts.pages}]]page, [[${carts.total}]] records
+                        当前第 [[${carts.pageNum}]]页，共 [[${carts.pages}]] 页， [[${carts.total}]] 条记录
                     </span>
                                 <ul class="pagination pull-right no-margin">
                                     <li th:if="${carts.hasPreviousPage}">
-                                        <a th:href="'/index/cart?pageNum=1'">home</a>
+                                        <a th:href="'/index/cart?pageNum=1'">首页</a>
                                     </li>
 
                                     <li class="prev" th:if="${carts.hasPreviousPage}">
@@ -106,7 +106,7 @@
                                             <i class="ace-icon fa fa-angle-double-left"></i>
                                         </a>
                                     </li>
-
+                                    <!--遍历条数-->
                                     <li th:each="nav:${carts.navigatepageNums}">
                                         <a th:href="'/index/cart?pageNum='+${nav}" th:text="${nav}" th:if="${nav != carts.pageNum}"></a>
                                         <span style="font-weight: bold;background: #6faed9;" th:if="${nav == carts.pageNum}" th:text="${nav}" ></span>
@@ -119,7 +119,7 @@
                                     </li>
 
                                     <li>
-                                        <a th:href="'/index/cart?pageNum='+${carts.pages}">end</a>
+                                        <a th:href="'/index/cart?pageNum='+${carts.pages}">尾页</a>
                                     </li>
                                 </ul>
                             </div>

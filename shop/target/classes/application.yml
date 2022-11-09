@@ -8,12 +8,12 @@ spring:
         driverClassName: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://localhost:3306/t_shop?useUnicode=true&characterEncoding=UTF-8
         username: root
-        password:  Meng3220175.  #mac 990213 # windows Meng3220175
-        # Initialize size, min, max
+        password:  Meng3220175 #Meng3220175.  #mac 990213 # windows
+        # 初始化大小，最小，最大
         initialSize: 1
         minIdle: 3
         maxActive: 20
-        # Configure the time to wait for a timeout to get a connection
+        # 配置获取连接等待超时的时间
         maxWait: 60000
         filters: stat,wall,slf4j
     thymeleaf:
@@ -29,7 +29,7 @@ mybatis:
     mapper-locations: classpath:mapper/*.xml
     configuration:
         map-underscore-to-camel-case: true
-# Paging configuration
+# 分页配置
 pagehelper:
     helper-dialect: mysql
     reasonable: true
@@ -40,4 +40,4 @@ mapper:
     not-empty: false
     identity: MYSQL
 
-uploadDir: /Users/mwh/Desktop/seaFood-Shop/seaFood-Shop/upload
+uploadDir: C:\Users\1\Desktop\新建文件夹 (2)\seaFood-Shop\seaFood-Shop

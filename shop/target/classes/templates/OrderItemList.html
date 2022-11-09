@@ -26,13 +26,13 @@
             <div class="layui-row layui-form-item">
 
                 <div class="layui-col-xs3">
-                    <label class="layui-form-label">order No.：</label>
+                    <label class="layui-form-label">订单编号：</label>
                     <div class="layui-input-block">
                         <input type="text" name="no" placeholder="" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-col-xs3" style="padding-left:20px; ">
-                    <button type="button" class="layui-btn" id="btn_query">query</button>
+                    <button type="button" class="layui-btn" id="btn_query">查询</button>
                 </div>
             </div>
         </form>
@@ -47,34 +47,34 @@
         <form class="layui-form" id="addform" style="padding: 15px 30px 15px 0px;" action="">
 
             <div class="layui-form-item">
-                <label class="layui-form-label">order:</label>
+                <label class="layui-form-label">订单:</label>
                 <div class="layui-input-block">
-                    <input type="text" name="oid" lay-verify="required" placeholder="Please enter information"  class="layui-input" >
+                    <input type="text" name="oid" lay-verify="required" placeholder="请输入信息"  class="layui-input" >
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">good:</label>
+                <label class="layui-form-label">商品:</label>
                 <div class="layui-input-block">
-                    <input type="text" name="gid" lay-verify="required" placeholder="Please enter information"  class="layui-input" >
+                    <input type="text" name="gid" lay-verify="required" placeholder="请输入信息"  class="layui-input" >
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">quantity:</label>
+                <label class="layui-form-label">数量:</label>
                 <div class="layui-input-block">
-                    <input type="text" name="num" lay-verify="required" placeholder="Please enter information"  class="layui-input" >
+                    <input type="text" name="num" lay-verify="required" placeholder="请输入信息"  class="layui-input" >
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">price:</label>
+                <label class="layui-form-label">金额:</label>
                 <div class="layui-input-block">
-                    <input type="text" name="money" lay-verify="required" placeholder="Please enter information"  class="layui-input" >
+                    <input type="text" name="money" lay-verify="required" placeholder="请输入信息"  class="layui-input" >
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button type="button" class="layui-btn" lay-submit="" lay-filter="addSubmit">submit</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">reset</button>
+                    <button type="button" class="layui-btn" lay-submit="" lay-filter="addSubmit">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
         </form>
@@ -87,25 +87,25 @@
             <input type="hidden" name="id" id="id">
 
             <div class="layui-form-item">
-                <label class="layui-form-label">order:</label>
+                <label class="layui-form-label">订单:</label>
                 <div class="layui-input-block">
                     <input type="text" name="oid" lay-verify="required" class="layui-input" id="oid" >
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">good:</label>
+                <label class="layui-form-label">商品:</label>
                 <div class="layui-input-block">
                     <input type="text" name="gid" lay-verify="required" class="layui-input" id="gid" >
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">quantity:</label>
+                <label class="layui-form-label">数量:</label>
                 <div class="layui-input-block">
                     <input type="text" name="num" lay-verify="required" class="layui-input" id="num" >
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">price:</label>
+                <label class="layui-form-label">金额:</label>
                 <div class="layui-input-block">
                     <input type="text" name="money" lay-verify="required" class="layui-input" id="money" >
                 </div>
@@ -113,8 +113,8 @@
 
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="editSubmit">submit</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">reset</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="editSubmit">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
         </form>
@@ -122,7 +122,7 @@
 
 
 <script type="text/html" id="barDemo">
-<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">delete</a>
+<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
 <script src="static/layui/layui.all.js" charset="utf-8"></script>
@@ -134,43 +134,48 @@
         var form = layui.form;
 
 
-
+        //第一个实例
         var tableIns = table.render({
             elem: '#test'
             ,height: 500
             ,where: {}
-            ,url: '/orderItem/list'
-            ,page: true
+            ,url: '/orderItem/list' //数据接口
+            ,page: true //开启分页
             ,cols: [
-                [
-                    {field: 'oname', title: 'id', fixed: 'center'},
-                    {field: 'gname', title: 'good', fixed: 'center'},
-                    {field: 'num', title: 'quantity', fixed: 'center'},
-                    {field: 'money', title: 'price', fixed: 'center'},
-                    {field: 'createTime', title: 'time', fixed: 'center'},
-                    {fixed: 'right', title:'operation', width:230, toolbar: '#barDemo'}
+                [ //表头
+                    {field: 'oname', title: '订单编号', fixed: 'center'},
+                    {field: 'gname', title: '商品', fixed: 'center'},
+                    {field: 'num', title: '数量', fixed: 'center'},
+                    {field: 'money', title: '金额', fixed: 'center'},
+                    {field: 'createTime', title: '创建时间', fixed: 'center'},
+                    {fixed: 'right', title:'操作', width:230, toolbar: '#barDemo'}
                 ]
             ]
         });
 
-
+        /**
+         * 查询按钮事件
+         * **/
         $("#btn_query").click(function(){
             tableIns.reload({
                 where:{
-
+                    //对应查询条件
                       no:$("input[name=no]").val()
                 },page: {
-                    curr: 1
+                    curr: 1 //重新从第 1 页开始
                 }
             })
         });
 
-
+        /**
+         * 监听表格操作
+         *
+         * **/
         var editwindow ;
         table.on('tool(test)', function(obj){
             var data = obj.data;
             if(obj.event === 'del'){
-                top.layer.confirm('real delete?', function(index){
+                top.layer.confirm('真的删除行么', function(index){
                     $.ajax({
                         url:"/orderItem/del",
                         type:"post",
@@ -179,7 +184,7 @@
                             if(data.ret){
                                 obj.del();
                                 parent.layer.close(index);
-                                parent.layer.msg("delete successful!")
+                                parent.layer.msg("删除成功!")
                             }
                         }
                     })
@@ -217,7 +222,7 @@
                                         tableIns.reload({
                                             where: {}
                                             ,page: {
-                                                curr: 1
+                                                curr: 1 //重新从第 1 页开始
                                             }
                                         });
                                     }
@@ -226,7 +231,7 @@
                         });
                     },
                     error:function(){
-                        layer.msg('fail',{icon:0,time:3000});
+                        layer.msg('获取失败',{icon:0,time:3000});
                     }
                 });
 
@@ -234,7 +239,9 @@
         });
 
 
-
+        /**
+        *  新增单击事件  addModel 模态框的局部变量 方便下面引用
+        * */
         var addModel;
         $("#addInfo").click(function(){
             addModel = layer.open({
@@ -247,7 +254,9 @@
             });
         });
 
-
+        /**
+         *  监听 添加提交按钮
+         */
         layui.form.on('submit(addSubmit)', function(data){
             $.ajax({
                 url:"/orderItem/add",
@@ -256,12 +265,12 @@
                 data: $("#addform").serialize(),
                 success:function (data) {
                     if(data.ret){
-                        parent.layer.msg("successful！");
+                        parent.layer.msg("添加成功！");
                         layer.close(addModel);
                         tableIns.reload({
                             where: {}
                             ,page: {
-                                curr: 1
+                                curr: 1 //重新从第 1 页开始
                             }
                         });
                     }else{
@@ -269,7 +278,7 @@
                     }
                     window.location.href='/orderItem/orderItem';
                 },error:function(data){
-                    parent.layer.msg("ERROR");
+                    parent.layer.msg("出现错误");
                 }
             })
             return false;

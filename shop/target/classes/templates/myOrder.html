@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <base th:href="${#request.getContextPath()}+'/'">
-    <title>myOrder</title>
+    <title>我的订单</title>
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/animate.css" rel="stylesheet">
     <link href="static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -50,22 +50,22 @@
                         <table class="table shoping-cart-table">
                             <tbody>
                             <tr class="danger">
-                                <td style="width: 18%;text-align: center;">order No.</td>
-                                <td style="width: 10%;text-align: center;">quantitty</td>
-                                <td style="width: 10%;text-align: center;">total price</td>
-                                <td style="width: 18%;text-align: center;">status</td>
-                                <td style="width: 18%;text-align: center;">time</td>
-                                <td style="width: 18%;text-align: center;">operation</td>
+                                <td style="width: 18%;text-align: center;">订单编号</td>
+                                <td style="width: 10%;text-align: center;">数量</td>
+                                <td style="width: 10%;text-align: center;">总价</td>
+                                <td style="width: 18%;text-align: center;">状态</td>
+                                <td style="width: 18%;text-align: center;">下单日期</td>
+                                <td style="width: 18%;text-align: center;">操作</td>
                             </tr>
                             <tr class="danger"  th:each="order:${orders.list}">
                                 <td style="width: 18%;text-align: center;" th:text="${order.no}"></td>
                                 <td style="width: 10%;text-align: center;" th:text="${order.num}"></td>
                                 <td style="width: 10%;text-align: center;" th:text="${order.total}"></td>
-                                <td style="width: 18%;text-align: center;" th:text="${order.status=='01'?'Ordered':'Cancelled'}"></td>
+                                <td style="width: 18%;text-align: center;" th:text="${order.status=='01'?'已下单':'已取消'}"></td>
                                 <td style="width: 18%;text-align: center;" th:text="${#dates.format(order.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td style="width: 18%;text-align: center;">
-                                    <button type="button" class="btn layui-btn-xs btn-success" th:onclick="'getDetail(\'' + ${order.id} + '\');'">detail</button>
-                                    <button type="button" class="btn layui-btn-xs btn-danger" th:onclick="'quxiao(\'' + ${order.id} + '\');'">cancel</button>
+                                    <button type="button" class="btn layui-btn-xs btn-success" th:onclick="'getDetail(\'' + ${order.id} + '\');'">订单详情</button>
+                                    <button type="button" class="btn layui-btn-xs btn-danger" th:onclick="'quxiao(\'' + ${order.id} + '\');'">取消订单</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -73,17 +73,17 @@
                     </div>
 
 
-
+                    <!--显示分页信息-->
                     <div class="row" style="margin-top: 50px;">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
                             <div class="modal-footer no-margin-top" style="justify-content: center;">
                                                 <span style="margin-bottom: 13px;font-size: 15px;margin-right: 15px;">
-                                                    current[[${orders.pageNum}]]page,all[[${orders.pages}]]page[[${orders.total}]]record
+                                                    当前第 [[${orders.pageNum}]]页，共 [[${orders.pages}]] 页， [[${orders.total}]] 条记录
                                                 </span>
                                 <ul class="pagination pull-right no-margin">
                                     <li th:if="${orders.hasPreviousPage}">
-                                        <a th:href="'/index/myOrder?pageNum=1'">home</a>
+                                        <a th:href="'/index/myOrder?pageNum=1'">首页</a>
                                     </li>
 
                                     <li class="prev" th:if="${orders.hasPreviousPage}">
@@ -91,7 +91,7 @@
                                             <i class="ace-icon fa fa-angle-double-left"></i>
                                         </a>
                                     </li>
-
+                                    <!--遍历条数-->
                                     <li th:each="nav:${orders.navigatepageNums}">
                                         <a th:href="'/index/myOrder?pageNum='+${nav}" th:text="${nav}" th:if="${nav != orders.pageNum}"></a>
                                         <span style="font-weight: bold;background: #6faed9;" th:if="${nav == orders.pageNum}" th:text="${nav}" ></span>
@@ -104,7 +104,7 @@
                                     </li>
 
                                     <li>
-                                        <a th:href="'/index/myOrder?pageNum='+${orders.pages}">end</a>
+                                        <a th:href="'/index/myOrder?pageNum='+${orders.pages}">尾页</a>
                                     </li>
                                 </ul>
                             </div>
@@ -144,9 +144,9 @@
                     var tr = $("<tr style='max-height: 200px;'></tr>");
                     tr.append($("<td ><img class='img_responsive' src='" + item.image + "'/></td>"));
                     tr.append($("<td style='text-align: left;width: 200px;'><a style='color: #01AAED;text-decoration: underline;' href='/front/goodDetail?id="+item.gid+"'>" + item.gname + "</a></td>"));
-                    tr.append($("<td>single price：" + item.money + "</td>"));
-                    tr.append($("<td>quantity：" + item.num + "</td>"));
-                    tr.append($("<td>total price：€" + item.money*item.num + "</td>"));
+                    tr.append($("<td>单价：" + item.money + "</td>"));
+                    tr.append($("<td>数量：" + item.num + "</td>"));
+                    tr.append($("<td>总价：￥" + item.money*item.num + "</td>"));
                     tbody.append(tr);
                 });
                 table.append(tbody);
@@ -170,7 +170,7 @@
         $.get("/index/quxiaoOrder?id=" + id, function (data) {
             layer.msg(data.message, {
                 icon: 1,
-                time: 2000
+                time: 2000 //2秒关闭（如果不配置，默认是3秒）
             }, function(){
                 window.location.href = "/index/myOrder";
             });

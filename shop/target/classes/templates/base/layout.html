@@ -4,7 +4,7 @@
 <div class="navbar-wrapper" th:fragment="topbar">
     <nav class="navbar navbar-default navbar-fixed-top navbar-expand-md navbar-scroll" role="navigation">
         <div class="container">
-            <a class="navbar-brand" href="/show">seafood mall</a>
+            <a class="navbar-brand" href="/show">北海海鲜特产销售系统</a>
             <div class="navbar-header page-scroll">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
                     <i class="fa fa-bars"></i>
@@ -12,19 +12,19 @@
             </div>
             <div class="collapse navbar-collapse justify-content-end" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a class="nav-link page-scroll" href="/front/">home</a></li>
-                    <li><a class="nav-link page-scroll" href="/front/good">good</a></li>
+                    <li><a class="nav-link page-scroll" href="/front/">首页</a></li>
+                    <li><a class="nav-link page-scroll" href="/front/good">商品</a></li>
                     <th:block th:if="${session.userInfo!=null && session.type == '02'}">
-                        <li><a class="nav-link page-scroll" href="/index/cart">cart</a></li>
-                        <li><a class="nav-link page-scroll" href="/index/myOrder">myOrder</a></li>
-                        <li><a class="nav-link page-scroll" href="/index/myInfo">myInfo</a></li>
-                        <li><a class="nav-link page-scroll" href="/logout">logout</a></li>
+                        <li><a class="nav-link page-scroll" href="/index/cart">购物车</a></li>
+                        <li><a class="nav-link page-scroll" href="/index/myOrder">我的订单</a></li>
+                        <li><a class="nav-link page-scroll" href="/index/myInfo">个人中心</a></li>
+                        <li><a class="nav-link page-scroll" href="/logout">退出</a></li>
                     </th:block>
                     <th:block th:if="${session.type == '01'}">
-                        <li><a class="nav-link page-scroll" href="/index">enter backstage</a></li>
+                        <li><a class="nav-link page-scroll" href="/index">进入后台</a></li>
                     </th:block>
                     <th:block th:if="${session.userInfo==null}">
-                        <li><a class="nav-link page-scroll" href="/">login</a></li>
+                        <li><a class="nav-link page-scroll" href="/">登录</a></li>
                     </th:block>
                 </ul>
             </div>
